@@ -1,0 +1,11 @@
+template adatszerkezet
+convenient_multimap
+    funkcionalisan hozzaad a std::multimaphez
+        add (megadunk egy kulcsot meg egy erteket, igy hozzaadunk egy elemet)
+        update_key (megadunk ket kulcsot, az elso kulcsot a masodikra valtoztatjuk)
+        front es back muvelet (elso es utolso elemet tudjuk lekerdezni, irni, olvasni stb) nem kell determisztikusnak lennie (elso es utolso elem stabilan)
+        transform_keys (megadunk egy unaris fuggvenyt aminek az eredmenye lesz az uj kulcs)
+        convenient_multimap konvertalodjon std::multiset-te (gondolom kell meg egy konv is) //csak kulcsok//
+        debuggolas celjabol lehet valtoztatni a cppn
+        negyed 7ig lehet dolgozni
+

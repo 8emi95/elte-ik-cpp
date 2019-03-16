@@ -1,0 +1,48 @@
+Mai vizsga (170618), tapasztalataim / tippek:
+Felteszem a megoldásom (balfasz módon nem küldtem el magamnak úgyhogy itthon megírtam mégegyszer), 3-asig írtam meg.
+
+Egy multiset_vector<T, Comparator> osztályt kellett írni, amely rendezi a paraméterként kapott vectort, és a következő műveletei vannak:
+count(T ...) : megadja a rendezés szerint hány egyező elem van a paraméterrel
+find(T ...) : vektor iterátort ad vissza egy megegyező elemre
+secondary_ordering : egyező elemek közötti rendezést biztosítja
+use(std::vector ...) : a paraméterként kapott vectorral fog dolgozni innentől kezdve az osztály
+
+Ketteshez a count kellett, 
+hármashoz a find és use, 
+négyeshez a secondary_ordering, 
+ötöshöz sajnos nem írtam le mit kell. 
+
+Számomra azért volt kissé félrevezető a feladatleírás, mert úgy gondoltam ha már rendezetté kell alakítani akkor felveszek egy std::multiset konténert mivel az rendelkezik a rendezettség tulajdonsággal és ismétlődhetnek az elemei. Persze ez csak bait volt, egyébként több vizsgán is megfigyeltem hogy nem ajánlott a hasonló nevű konténerrel dolgozni, mint ami az írandó osztály neve, pár hete a priority queue-s feladattal ugyanígy beszoptam és nem haladtam semmire. Végül egy óra szenvedés után segítséget kértem és mondták hogy ne multisettel csináljam, és ne is másolgassak semmit, mert azzal kezdtem hogy a konstruktorban kapott paraméter vektort lemásoltam hogy majd azzal dolgozok. Teljesen félreértettem a feladatot, mert az EREDETI vektort kell rendezni és azzal dolgozni. Úgy 1,5 óra és 3 segítségkérés után rájöttem hogyan kéne nekiállni a feladatnak. Sokáig gondolkoztam hogy mégis [hogyan lehetne az eredeti vektort megtartani másolások nélkül], aztán jött az ihlet hogy [2 iterátor elég az egészhez, egy az elejére meg egy a végére]. Valamint a [Comparatort is el kéne tárolni adattagként], ha már custom rendezést is csinálnak a mainben.
+A count és a find egy kaptafára épült, de mire rájöttem hogyan kéne megvalósítani az összehasonlítást kevés hajszálam maradt. Ugye egyenlőségjel operátor nem volt írva a mainben, ráadásul "<" sem, hanem funktorként volt definiálva a rendezés. Ezt kellett meghívni, hogy tudjunk összehasonlítani 2 azonos típust. Egyenlőek meg akkor lesznek, ha egyikre sem teljesül hogy kisebb a másiknál.
+A use függvény megírására pár perc után rájöttem hogy tul.képp ugyanazt kell csinálnia mint a konstruktornak.
+Én nem vagyok c++ pro egyáltalán, már x-edik alkalmam volt ezen a vizsgán és bőven kellett segítséget kérnem hozzá,mind vizsga előtt, mind vizsga közben. Akinek nem megy, ezt tudom javasolni hogy kérjetek segítséget bárkitől, akár itt a csoportban akár ismerősöktől. A gyakorlati részhez muszáj próbálkozni a régi vizsgákkal. A beugró ma egyébként meglepően könnyű volt (legalábbis nekem). A tárgy oktatása szvsz hagy kívánnivalót maga után így sok önszorgalom kell a tudás elsajátításához. A legjobb tipp amit tudok adni vizsgára, hogy érdemes rászánni akár 20-30 percet csak arra, hogy elgondolkozz, hogyan is állsz neki a feladatnak. Mit kér a feladat, milyen megvalósítást érdemes hozzá párosítani. Ez a fejest ugrunk a medencébe módszer csak ahhoz vezet hogy órákat pazarolsz el, mint ma én :D .
+
+
+tips:
+- nem ajánlott a hasonló nevű konténerrel dolgozni
+
+bemutatás:
+- typename: mit csinál, miért kell használni (bár nálam Pataki csak 2 függvény működésére kérdezett rá, nyelvi elemek)
+- dependent scope (typename-hez?)
+- include guardot
+- typedef
+- multimap: insert hogyan mukodik
+- iteratorok
+- const fuggvenyekkel kapcsolatosan vmi
+- operátorok: miért jó az nekünk, hogyha const referenciával térünk vissza (ugye ilyenkor lehet láncoltan is használni az operátorokat)
+
+
+
+Típus (3x)
+Külső szerkesztésű függvény címe (3x)
+Egész konstans (2x)
+Karakterlánc literál (2x)
+Lebegőpontos konstans (1x)
+Logikai konstans (1x)
+
+Megörökölték annak az osztálynak a tagjait is, amelyik minden C++ osztálynak az őse. (2x)
+Találtunk egy bugot a fordítóprogramban. (2x)
+Megfeledkeztünk a header guard-okról és több helyre is be include-oltuk a header filet. (1x)
+A fordítóprogram szóhatárra optimalizálta az adattago(ka)t. (1x)
+A this pointer miatt nagyobb az osztály mérete. (1x)
+Az osztályunknak van virtuális függvénye, így létrejött a virtuális tábla pointer. (1x)

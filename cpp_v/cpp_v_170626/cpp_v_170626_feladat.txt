@@ -1,0 +1,57 @@
+template osztály: index_operations<Cont, T>
+Cont: adatszerkezet, 0-tól legyen értelmezetett rajta az indexelés
+T: milyen elemeket tárol (cska egy util template paraméter)
+
+F: indexelést értelmezhesse másképp
+
+2:
+- shift_left(): az indexelést (!!!) shifteljük eggyel, elemek maradnak (!!!), többször meg lehessen hívni
+[3, 2, 5, 8]
+0   1  2   3
+->
+1   2  3   0
+- at(index): az elshiftelt(!!!) indexet adja vissza
+
+3:
+- shift_right: jobbra shiftel, elemek maradnak
+- n-nel is lehessen shifttel ni, ne csak eggyel
+- >>: jobbra shift operátor
+- <<: balra shift operátor
+
+4 nemtom hol kezdődik, talán itt
+- reverse: megfordítja az indexelés sorrendjét
+[3, 2, 5, 8]
+1   2  3   0
+->
+0   3  2   1
+
+- egy idő után el lehessen hagyni T-talán
+
+5:
+- működjön mindennel (tömb, string, int, vektor)
+
+
+
+/*
+msg string
+d deque<int>-be számok
+v vector<int> ugyanakkora
+transform(d eleje, d vége, v eleje, bind1st(+(), 3))
+elemek d+3?
+
+bind1st binds the first argument
+foo(int a, int b)
+bind1st(foo, 1)(bar) = foo(1, bar)				(plus(), 3)(?) = plus(3, ?)
+
+
+indop <deque int, int> i..max shiftl d-n
+indop <string, char> 3 shiftl msg-n
+indop <vector int, int> 1 shiftl v-n
+
+
+[3, 2, 5, 8]
+0   1  2   3
+->
+1   2  3   0
+[2, 5, 8, 3]
+*/

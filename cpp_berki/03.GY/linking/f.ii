@@ -1,0 +1,16 @@
+# 1 "f.cpp"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "f.cpp"
+namespace
+{
+ void f()
+ {
+
+ }
+}
+
+static void g()
+{
+
+}

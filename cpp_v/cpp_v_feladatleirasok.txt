@@ -1,0 +1,113 @@
+﻿2016. június 24. http://patakino.web.elte.hu/pny2/aamain.cpp
+array_appender osztály template, amivel meglévő tömböket (és négyesért
+vector-okat) lehet view-ként appendálni, a tömb/vector elemek ugyanott
+maradnak, de folytonosan lehet indexelni az elemeket, végigiterálni az
+elemeken. A template paraméter a tömb elemeinek típusát határozza meg.
+meo: http://schaumb.web.elte.hu/CPP/aa_160624/
+
+2016. december 20. http://patakino.web.elte.hu/pny2/savmain.cpp
+A sorted_array_view osztály template, ahol egy hagyományos
+C/C++ tömböt (konstruktor paraméter) kell rendezetté alakítani, amíg a
+tömbön rajta van a view. Ha a view lekerül (élettartam végén) a tömb álljon
+vissza eredeti állapotára. Néhány utility a view-hoz: size, count, index_of,
+iterátor. A count és az index_of használja a rendezést, annak eldöntésére,
+hogy két érték mikor egyezik meg. 5-ösért egy funktor paramétert is lehessen
+megadni custom rendezéshez.
+meo: http://schaumb.web.elte.hu/CPP/sav_161220/
+
+2017. január 18. http://patakino.web.elte.hu/pny2/lsmain.cpp
+A list_sorter osztály template, ami konstruktorban kap egy std::list-et, ezzel fog dolgozni és rendezetten tartja. Amikor újabb std::list-et add-olunk hozzá, akkor amit add-oltunk, annak a tartalma átkerül a már rendezett list-be. 5-ösért az operator+= hasonlóan viselkedik, de ott list_sorter-t kapunk paraméterként, ami akár más rendezéssel is működhet.
+meo: http://schaumb.web.elte.hu/CPP/ls_170118/
+
+2017. február 3. http://patakino.web.elte.hu/pny2/dvmain.cpp
+A deques_view: std::deque-ekeket egy nagy deque-ként láttatni, logikus
+műveletekkel.
+meo: http://schaumb.web.elte.hu/CPP/dv_170203/
+
+2017. június 12. http://patakino.web.elte.hu/pny2/cmmapmain.cpp
+template adatszerkezet
+convenient_multimap
+    funkcionalisan hozzaad a std::multimaphez
+        add (megadunk egy kulcsot meg egy erteket, igy hozzaadunk egy elemet)
+        update_key (megadunk ket kulcsot, az elso kulcsot a masodikra valtoztatjuk)
+        front es back muvelet (elso es utolso elemet tudjuk lekerdezni, irni, olvasni stb) nem kell determisztikusnak lennie (elso es utolso elem stabilan)
+        transform_keys (megadunk egy unaris fuggvenyt aminek az eredmenye lesz az uj kulcs)
+        convenient_multimap konvertalodjon std::multiset-te (gondolom kell meg egy konv is) //csak kulcsok//
+        debuggolas celjabol lehet valtoztatni a cppn
+        negyed 7ig lehet dolgozni
+meo: cpp_v_170612 mappa 3 meoval https://drive.google.com/open?id=0B2KYiKFS9KhHVnZOTlc5SV9fakk
+
+2017. június 19. http://patakino.web.elte.hu/pny2/msvecmain.cpp
+Egy multiset_vector<T, Comparator> osztályt kellett írni, amely rendezi a paraméterként kapott vectort, és a következő műveletei vannak:
+count(T ...) : megadja a rendezés szerint hány egyező elem van a paraméterrel
+find(T ...) : vektor iterátort ad vissza egy megegyező elemre
+secondary_ordering : egyező elemek közötti rendezést biztosítja
+use(std::vector ...) : a paraméterként kapott vectorral fog dolgozni innentől kezdve az osztály
+Ketteshez a count kellett, hármashoz a find és use, négyeshez a secondary_ordering, ötöshöz sajnos nem írtam le mit kell.
+meo: cpp_v_170619_kissdavid_[meo_3as].h https://drive.google.com/file/d/0B2KYiKFS9KhHUGstWTlXT1RzZVk/view?usp=sharing
+
+2017. június 23. http://patakino.web.elte.hu/pny2/vvmain.cpp
+Olyan template osztály, amely a megadott std::vector egy indexelés szerinti nézetét valósítja meg, ahol a nézet elemeit cserélgethetjük, lekérdezhetjük, de ez magát az eredeti adatszerkezetet nem változtatja meg.
+2-es:
+- a konstruktor létrehozza a megadott std::vector alapértelmezett indexelése szerinti nézetet a vektor lemásolása nélkül
+- swap: két megadott indexű elem cseréje a nézeten az eredeti vektor módosítása nélkül
+- at: a nézet szerint a megadott indexen lévő elem lekérdezése
+3-as:
+- operator[]: ugyanaz, mint at
+- index_of: a megadott elem első előfordulásának indexe a nézet szerint
+4-es:
+- operator-, operator+: a nézet hátulról előre való megfordítása, illetve visszaállítása, ugyancsak az eredeti vektor módosítása nélkül
+5-ös:
+- iterátor az eredeti vektornak a nézet szerint való végigiterálásához: a nézet begin és end függvényeinek és az iterator belső típusnak implementálása a iterátortól elvárt függvényekkel együtt
+meo1: Tesztelő https://pastebin.com/VgTx08WD	Megoldás https://pastebin.com/yQLiw1T9
+meo2: https://pastebin.com/w62zXwU1
+
+
+
+
+
+
+
+
+/*#ifndef INDOPS_H
+#define INDOPS_H
+
+#include <iostream>
+
+template <class Cont, class T>
+class index_operations {
+private:
+	const Cont& cont;
+	int container_length;
+	int current_shift = 0;
+
+public:
+	index_operations(const Cont& from) : cont(from) {
+		this->container_length = from.size();
+	}
+
+	void shift_left();
+	const T& at(int i) const;
+};
+
+template <class Cont, class T>
+void index_operations<Cont, T>::shift_left() {
+	--(this->current_shift);
+
+	if (this->current_shift == -(this->container_length)) {
+		this->current_shift = 0; // végére érünk akk eredeti állapotba
+	}
+}
+
+template <class Cont, class T>
+const T& index_operations<Cont, T>::at(int i) const {
+	int orig_i = i + this->current_shift;
+
+	if (orig_i >= 0) {
+		return this->cont[orig_i % this->container_length];
+	} else {
+		return this->cont[this->container_length + orig_i];
+	}
+}
+
+#endif*/

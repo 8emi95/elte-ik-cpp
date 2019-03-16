@@ -1,0 +1,202 @@
+http://people.inf.elte.hu/gugraai/progcpp/
+fixed: 25
+unknown: 13, 49, 57, 80, 82, 86
+
+
+
+https://ik.ehog.hu/cpp-quiz
+
+
+**************************************************************************************************************************
+
+random https://www.facebook.com/groups/1697853153792345/permalink/1951829058394752/
+
+1. Mi a probléma az alábbi kódrészlettel? (b)
+class Interface
+{
+public:
+	virtual void f()=0;
+}
+a) Hiányzik a virtuális konstruktor. // virtuális konstruktor nem létezik
+b) Hiányzik a virtuális destruktor. // kizárásos alapon csak ez lehet válasz. Nem egy szerencsés struktúra, az tény, de szerintem nem hibás....
+c) void visszatérési értékű függvénynek nem lehet 0 az értéke. // annak a függvénynek nem az "értéke" nulla, az egy tisztán virtuális függvény, és void függvény is lehet tisztán virtuális.
+d) A class kulcsszó helyett az interface kulcsszó szükséges inkább. // interface kulcsszó nem létezik C++ban.
+
+HTML 2.
+
+3. Melyik állítás HAMIS az alábbiak közül? (d)
+a) szabláyos kifejezés egy pointerhez egy számot hozzáadni
+b) szabályos kifejezés egy pointerből egy számot kivonni
+c) szabályos kifejezés két pointer különbsége
+d) szabályos kifejezés két pointer összege // ha számokkal tolod el a pointert, akkor bájtokkal "arrébb" leszel, ha kivonsz, akkor a távolságukat kapod meg, de összeadni nem lehet https://stackoverflow.com/questions/2935038/why-cant-i-add-pointers
+
+4. Az alábbiak közül melyik NEM token a fordítóprogram szemszögéből nézve? (d)
+a) operátor
+b) azonosító
+c) konstans szövegliterál
+d) függvénytörzs // Mivel a függvénytörzs állhat több kifejezésből, szóval ilyen token nincs, hogy "függvénytörzs": https://en.wikipedia.org/wiki/Lexical_analysis#Token
+
+5. Az alábbi funktortípus melyik használata helyes? (b)
+struct X
+{
+	bool operator()(int a, int b) const
+	{
+		return a>b;
+	}
+};
+std::vector<int> v;
+a) std::map<X, int> s; // X-en, mint kulcs, nincs értelmezve a < operátor.
+b) std::map<std::string, X>s; // nem egy végtelen értelmes, de szabályos struktúra.
+c) std::map<X, int, X>s; // X egy két intet váró bináris predikátum, és az ott lévő map-nak a kulcs típusa X és nem int, és az X nem képes egy X és egy int típust összehasonlítani.
+d) std::map<X(), int> s; // Ha X()-et írunk, akkor egy temporális név nélküli változó jön létre -- az std::map első tempalte paramétere típust vár, X() pedig egy objektum.
+// Az std::map első 2 kötelező paramétere a kulcs és az érték típusa, utána pedig a funktor típusa következik, melynek egy bináris predikátumnak kell lennie, mely egy (kulcs, érték) párhoz logikai értéket rendel.
+
+
+**************************************************************************************************************************
+
+random2 https://www.facebook.com/groups/1697853153792345/permalink/1957169484527376/
+
+1. Mit ír ki az alábbi kódrészlet? (b)
+const char * str = "Hello";
+int i = sizeof(str)/sizeof(str[0]);
+std::cout << i;
+a) fordítási hiba
+b) implementáció-függő // Ez azért nem definiált, mert bár egy "karaktertömb"/"karakter első eleme" osztás a tömb elemszámát adja vissza, azonban itt "str" egy mutató, és nem egy tömb.
+// Igen. str az egy char*, a pointer mérete pedig az architektúrától függ. Tulajdonképpen ez itt most sizeof(ptr_t)/1 (hiszen sizeof(char) == 1), azaz visszakapod az architektúrádnak megfelelő pointer méretet. Általában 4, vagy 8.
+c) 6
+d) 5
+
+2. HTML-ish
+
+
+**************************************************************************************************************************
+
+husi könyv http://people.inf.elte.hu/szelethus/LaTeX/cpp/cpp_book/cpp_book.pdf
+
+HTML 1. Hány byte-on tárol a C++ egy short int-et? (b)
+a) 1
+b) implementációfüggo
+c) 8
+d) 2
+
+HTML-ish 2. Melyik reláció hamis az alábbiak közül? (c)
+a) sizeof(char) == sizeof(signed char)
+b) sizeof(short) <= sizeof(long int)
+c) sizeof(bool) == sizeof(char)
+d) sizeof(float) <= sizeof(long double)
+
+HTML 3. Mennyi a 012 konstans értéke? (d)
+a) 12
+b) 0.12
+c) 18
+d) 10 // 0 -> octa; 1*8^1+2*8^0=8+2
+
+HTML-ish 4. Melyik nem preprocesszor direktíva? (d)
+a) #define
+b) #else
+c) #elif
+d) #elseif
+
+HTML 5. Melyik kulcsszó nem a tárolási osztályt specifikálja egy deklarációban ill. definícióban? (d)
+a) static
+b) auto // azt jelenti hogy
+a változó stacken legyen, ez régebben implicit módon mindehol ott volt, de mostmár nem, sot, C++11-ben
+mást is jelent
+c) register // azt jelenti, hogy a változót a registerben tárolja, azonban azt hogy
+milyen változót hol érdemes tárolni, jobban tudja a fordító, így nem érdemes kiírni
+d) public
+
+HTML 6. Az X::f() függvényhívás során mit ír ki a program? (c)
+int i = 1;
+namespace X
+{
+	int i = 2;
+	void f()
+	{
+		int a = i;
+		int i = a + X::i + ::i;
+		std :: cout << i << std :: endl ;
+	}
+}
+a) 1
+b) semmit, fordítási hiba keletkezik
+c) 5
+d) 4
+
+HTML 7. Melyik igaz az alábbiak közül? (a)
+struct X
+{
+	X(int i = 0) {}
+};
+a) A fenti struct-nak van default konstruktora. // továbbá sok egyéb dolgot is generál még
+b) A fenti struct-nak csak default konstruktora van.
+c) A fenti struct-nak nincs default konstruktora.
+d) A fenti struct-nak nincs copy konstruktora.
+
+8. Az alábbi példában a Foo f(10); konstruktor hívása után mennyi lesz f.x értéke? (c)
+struct Foo
+{
+	int x, y;
+	Foo (int i):y(i),x(y++) {}
+};
+a) 11
+b) 0
+c) nem definiált
+d) 10
+// Mivel a structban először szerepel x, utána y, ezért mindegy, milyen sorrendben szerepeltetjük őket az inicializációs listában, először x, utána y fog inicializálódni. Mivel amikor inicializálni akarjuk x-et, akkor y értékét is felhasználjuk, azonban y még nem volt inicializálva, így ez egy nem definiált viselkedés. Persze nagyjából lehet sejteni hogy y étéke valami memóriaszemét lesz, de a szabvány szerint ez csak simán UB.
+
+9. Melyik típusnak van push_front tagfüggvénye? (b)
+a) std::set
+b) std::list
+c) std::stack
+d) std::vector
+
+10. Mi lesz az a változó értéke a függvényhívás után? (a)
+int a = 1, b = 2;
+void f(int x, int y)
+{
+	int t = x;
+	x = y;
+	y = t;
+}
+f(a,b);
+a) 1 // nem & átadás
+b) 2
+c) nem definiált
+d) semmi, fordítási hiba keletkezik
+
+11. Melyik állítás igaz egy konstans objektum esetében? (c)
+a) Az objektumnak csak private adattagja lehet.
+b) Az objektumnak csak azok a tagfüggvényei hívhatóak meg, amelyek nem módosítják az adattagjait.
+c) Az objektumnak csak a konstans tagfüggvényei hívhatóak meg.
+d) Az objektum csak default konstruktorral hozható létre.
+
+12. Melyik állítás igaz az alábbiak közül? (c)
+a) A dynamic_cast soha nem dob kivételt.
+b) A dynamic_cast használatához nem lehet statikus adattagja az osztálynak.
+c) A dynamic_cast használatához polimorf osztályokra van szükség.
+d) A dynamic_cast fordítás idejű típuskonverziót végez.
+
+13. Mi a paraméterdedukció? (b)
+a) Az az eljárás, amikor referencia-szerinti paraméterátadásra cseréljük az érték-szerintit.
+b) Az az eljárás, amikor a fordítóprogram levezeti a template paramétereket a függvényhívásból.
+c) Az az eljárás, amikor linker feloldja a külso függvényhívások paramétereit.
+d) Az az eljárás, amikor default paraméterekkel látjuk el a függvény paramétereket.
+
+14. Az alábbiak közül melyik függvényhívással lehet ekvivalens az alábbi (csillaggal jelölt) operátorhívás? (c)
+class Matrix
+{
+	// ...
+};
+Matrix a,b;
+a + b; // (*)
+a) a.operator+(a,b);
+b) b.operator+(a);
+c) operator+(a,b); // mert lehet egy függvényen kívüli függvényhívás a csillagozott rész
+d) Matrix.operator+(a,b);
+
+15. Melyik állítás igaz az alábbiak közül? (d)
+a) Egy int* const típusú pointer mérete 8 byte.
+b) A sizeof(int) == sizeof(int* const) reláció mindig igaz.
+c) Egy int* const típusú pointer nem változtathatja meg a mutatott értéket.
+d) Egy int* const típusú pointer mutathat változóra.

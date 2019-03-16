@@ -1,0 +1,3 @@
+#define FIVE 5
+
+FIVE FIVE FIVE
